@@ -27,7 +27,9 @@ const failAudio = document.getElementById('fail-audio');
 let currentTask = {parts: simpleParts};
 
 function answerPart(index) {
-    messageElement.textContent = `покажи где ${currentTask.parts[index].name}`;
+    q = `где ${currentTask.parts[index].name}?`
+    messageElement.textContent = q;
+    speechQuestion(q);
 }
 
 function removeHighlight() {
@@ -37,11 +39,26 @@ function removeHighlight() {
 }
 
 
+function speechQuestion(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        // Настройки синтеза речи (опционально)
+        utterance.lang = 'ru-RU'; // Язык и регион
+        utterance.pitch = 1; // Высота тона (0 до 2)
+        utterance.rate = 0.7; // Скорость речи (0.1 до 10)
+        utterance.volume = 1; // Громкость (0 до 1)
+        // Запуск синтеза речи
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert('Ваш браузер не поддерживает Web Speech API');
+    }
+}
+
 function checkAnswer(partId) {
     if (currentPartIndex === null) {
         return;
     }
-    
+
     id = currentTask.parts[currentPartIndex].id
     if ((!Array.isArray(id) && partId === currentTask.parts[currentPartIndex].id) ||
             id.includes(partId)) {
@@ -86,6 +103,9 @@ function guessPart() {
 
 document.addEventListener('DOMContentLoaded', () => {
     init();
-    guessPart();
+    setTimeout(()=> {
+        // speechQuestion('Части тела');
+        guessPart();
+    }, 2000);
     // highlightPart(currentPartIndex);
 });

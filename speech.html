@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech</title>
+</head>
+<body>
+    <h1>Text to Speech Example</h1>
+    <textarea id="text-input" rows="10" cols="50">Введите текст здесь...</textarea><br>
+    <button id="speak-button">Прочитать текст</button>
+
+    <script>
+        // Проверяем, поддерживается ли браузером Web Speech API
+        if ('speechSynthesis' in window) {
+            const speakButton = document.getElementById('speak-button');
+            const textInput = document.getElementById('text-input');
+
+            speakButton.addEventListener('click', () => {
+                const text = textInput.value;
+                const utterance = new SpeechSynthesisUtterance(text);
+
+                // Настройки синтеза речи (опционально)
+                utterance.lang = 'ru-RU'; // Язык и регион
+                utterance.pitch = 1; // Высота тона (0 до 2)
+                utterance.rate = 1; // Скорость речи (0.1 до 10)
+                utterance.volume = 1; // Громкость (0 до 1)
+
+                // Запуск синтеза речи
+                window.speechSynthesis.speak(utterance);
+            });
+        } else {
+            alert('Ваш браузер не поддерживает Web Speech API');
+        }
+    </script>
+</body>
+</html>

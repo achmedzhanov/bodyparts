@@ -1,3 +1,4 @@
+
 const parts = [
     { id: 'head', name: 'голова' },
     { id: 'neck', name: 'шея' },
@@ -9,15 +10,24 @@ const parts = [
     { id: 'belly', name: 'живот' }
 ];
 
+const simpleParts = [
+    { id: 'head', name: 'голова' },
+    { id: 'neck', name: 'шея' },
+    { id: ['arm-l', 'arm-r'], name: 'рука' },
+    { id: ['leg-l', 'leg-r'], name: 'нога' },
+    { id: 'chest', name: 'грудь' },
+    { id: 'belly', name: 'живот' }
+];
+
 let currentPartIndex = 0;
 const messageElement = document.getElementById('message');
 const successAudio = document.getElementById('success-audio');
 const failAudio = document.getElementById('fail-audio');
 
-function highlightPart(index) {
-    const part = document.getElementById(parts[index].id);
-    // part.classList.add('highlight');
-    messageElement.textContent = `покажи где ${parts[index].name}`;
+let currentTask = {parts: simpleParts};
+
+function answerPart(index) {
+    messageElement.textContent = `покажи где ${currentTask.parts[index].name}`;
 }
 
 function removeHighlight() {
@@ -27,7 +37,9 @@ function removeHighlight() {
 }
 
 function checkAnswer(partId) {
-    if (partId === parts[currentPartIndex].id) {
+    id = currentTask.parts[currentPartIndex].id
+    if ((!Array.isArray(id) && partId === currentTask.parts[currentPartIndex].id) ||
+            id.includes(partId)) {
         messageElement.textContent = '✅';
         successAudio.play();
         const part = document.getElementById(partId);
@@ -37,15 +49,15 @@ function checkAnswer(partId) {
         // removeHighlight();
         // setTimeout(() => highlightPart(currentPartIndex), 1000);
 
-        currentPartIndex = (currentPartIndex + 1) % parts.length;
-        setTimeout(() => highlightPart(currentPartIndex), 2000);
+        currentPartIndex = (currentPartIndex + 1) % currentTask.parts.length;
+        setTimeout(() => answerPart(currentPartIndex), 3000);
 
     } else {
         // const part = document.getElementById(partId);
-        const part = document.getElementsByClassName('exercise__body')[0];
-        part.classList.add('exercise__body--wrong');
+        const partEl = document.getElementsByClassName('exercise__body')[0];
+        partEl.classList.add('exercise__body--wrong');
         // failAudio.play();
-        setTimeout(() => part.classList.remove('exercise__body--wrong'), 1000);
+        setTimeout(() => partEl.classList.remove('exercise__body--wrong'), 1000);
     }
 }
 
@@ -64,7 +76,7 @@ function init() {
 
 function guessPart() {
     currentPartIndex = 0;
-    highlightPart(currentPartIndex);
+    answerPart(currentPartIndex);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

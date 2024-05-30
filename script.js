@@ -36,7 +36,12 @@ function removeHighlight() {
     });
 }
 
+
 function checkAnswer(partId) {
+    if (currentPartIndex === null) {
+        return;
+    }
+    
     id = currentTask.parts[currentPartIndex].id
     if ((!Array.isArray(id) && partId === currentTask.parts[currentPartIndex].id) ||
             id.includes(partId)) {
@@ -44,13 +49,13 @@ function checkAnswer(partId) {
         successAudio.play();
         const part = document.getElementById(partId);
         part.classList.add('part--сorrect');
-        // setTimeout(() => part.classList.remove('part--сorrect'), 1000);
-        // currentPartIndex = (currentPartIndex + 1) % parts.length;
-        // removeHighlight();
-        // setTimeout(() => highlightPart(currentPartIndex), 1000);
-
-        currentPartIndex = (currentPartIndex + 1) % currentTask.parts.length;
-        setTimeout(() => answerPart(currentPartIndex), 3000);
+        
+        newPartIndex = (currentPartIndex + 1) % currentTask.parts.length
+        currentPartIndex = null;
+        setTimeout(() => {
+            currentPartIndex = newPartIndex;
+            answerPart(currentPartIndex)
+        }, 3000);
 
     } else {
         // const part = document.getElementById(partId);

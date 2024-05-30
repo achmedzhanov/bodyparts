@@ -47,10 +47,7 @@
             90% { transform: translate(1px, 2px) rotate(0deg); }
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
-        #message {
-            font-size: 1.5em;
-            margin: 20px;
-        }
+
         .dropdown-left-top {
             position: absolute;
             top: 0;
@@ -64,6 +61,10 @@
             display: block !important;
         }   
         
+        .exercise__body {
+         padding: 0;
+        }
+
         .exercise__body--wrong {
             animation-name: blockShake;
             animation-duration: 1s;
@@ -80,6 +81,62 @@
             }
         }
         
+        .exercise__text {
+         font-size: 36px;
+         margin: 20px;   
+        }
+
+        .text-answer__input-block .text-answer__input--correct[data-v-58ffc188] {
+            border-color: #4ba662
+         }
+
+         .banner--correct .banner__icon[data-v-7de3d808] {
+            background-image: url(https://s3.logiclike.com/s3/web-ui/assets/correct-answer@opt-90fa52ed.svg)
+         }
+
+         .banner--wrong .banner__icon[data-v-7de3d808] {
+            background-image: url(https://s3.logiclike.com/s3/web-ui/assets/again@opt-756572ec.svg)
+         }
+
+         .problem-result--correct[data-v-fba9cf87] {
+            background-image: url(https://s3.logiclike.com/s3/web-ui/assets/result-bg-correct@opt-5b9c6f07.svg)
+         }
+
+         .problem-result--correct .problem-result__text[data-v-fba9cf87] {
+            filter: drop-shadow(0 6px 18px #39734D)
+         }
+
+         .answer--correct {
+            background-image: url(correct.svg);
+            width: 50px;
+            height: 45px;
+         }         
+
+         .part--сorrect {
+            /* opacity: 1; */
+            stroke: transparent;
+            stroke-width: 1;
+            fill: none;
+            animation: strokeCorrectColorChange 1s, fillCorrectColorChange 1s;
+        }
+
+        @keyframes strokeCorrectColorChange {
+            from {
+                stroke: transparent;
+            }
+            to {
+                stroke: #4ba662;
+            }
+        }
+
+        @keyframes fillCorrectColorChange {
+            from {
+                fill: transparent;
+            }
+            to {
+                fill: #4ba662;
+            }
+        }        
 
     </style>
 </head>
@@ -96,14 +153,22 @@
         </div>
       </div>
 
-    <div id="message"></div>
+   <div>
+    <div id="message" class="exercise__text" ></div>
+    <!-- <div class="answer--correct-container">  
+      <div class="answer--correct"></div>
+    </div> -->
+   </div>
+
+
+
 
     <!-- <h1>Изучение частей тела</h1> -->
     <!-- <div id="body-image">
         <object type="image/svg+xml" data="body3.svg" zoom="0.5" ></object>
     </div> -->
 
-    <div id="body-image" style="margin-left: -100px; zoom: 0.9" >
+    <div id="body-image" class="exercise__body" style="margin-left: -100px; zoom: 0.9" >
         <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    version="1.0"

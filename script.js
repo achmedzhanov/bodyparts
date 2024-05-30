@@ -28,12 +28,21 @@ function removeHighlight() {
 
 function checkAnswer(partId) {
     if (partId === parts[currentPartIndex].id) {
+        messageElement.textContent = '✅';
         successAudio.play();
-        currentPartIndex = (currentPartIndex + 1) % parts.length;
-        removeHighlight();
-        setTimeout(() => highlightPart(currentPartIndex), 1000);
-    } else {
         const part = document.getElementById(partId);
+        part.classList.add('part--сorrect');
+        // setTimeout(() => part.classList.remove('part--сorrect'), 1000);
+        // currentPartIndex = (currentPartIndex + 1) % parts.length;
+        // removeHighlight();
+        // setTimeout(() => highlightPart(currentPartIndex), 1000);
+
+        currentPartIndex = (currentPartIndex + 1) % parts.length;
+        setTimeout(() => highlightPart(currentPartIndex), 2000);
+
+    } else {
+        // const part = document.getElementById(partId);
+        const part = document.getElementsByClassName('exercise__body')[0];
         part.classList.add('exercise__body--wrong');
         // failAudio.play();
         setTimeout(() => part.classList.remove('exercise__body--wrong'), 1000);
@@ -60,5 +69,6 @@ function guessPart() {
 
 document.addEventListener('DOMContentLoaded', () => {
     init();
+    guessPart();
     // highlightPart(currentPartIndex);
 });
